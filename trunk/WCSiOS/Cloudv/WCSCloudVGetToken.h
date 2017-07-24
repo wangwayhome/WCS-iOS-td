@@ -32,5 +32,5 @@
                       cmd:(NSString *)cmd
                 overwrite:(NSString *)overwrite
               videoSource:(NSString *)videoSource
-        completionHandler:(void (^)(NSData *  data, NSURLResponse *  response, NSError *  error))completionHandler;
+        completionHandler:(void (^)(NSDictionary *result, NSError *error))completionHandler;
 @end

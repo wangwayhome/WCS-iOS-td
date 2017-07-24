@@ -408,8 +408,8 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
 -(void)getCloudVToken
 {
   WCSCloudVGetToken *wT = [[WCSCloudVGetToken alloc]init];
-  NSString *secretkey = @"80955aaf19949814ccc3a868d2def773";
-  NSString *uid = @"1100186";
+  NSString *secretkey = @"";
+  NSString *uid = @"";
   NSString *timestamp = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
   NSString *token= [WCSCommonAlgorithm MD5StringFromString:[NSString stringWithFormat:@"%@%@%@",secretkey,uid,timestamp]];
   
@@ -421,26 +421,20 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
                      cmd:nil
                overwrite:nil
              videoSource:nil
-       completionHandler:^(NSData *  data, NSURLResponse *  response, NSError *  error) {
-    if (error) {
-      NSLog(@"error = %@ ",error);
-    }else{
-      NSError * jerror = nil;
-      NSDictionary* rdic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jerror];
-      if (!jerror) {
-        NSLog(@"cloudv getToken resp:%@",rdic);
-        if([[rdic objectForKey:@"code"]intValue] == 200){
-          NSString *uploadToken = nil;
-          uploadToken = [NSString stringWithFormat:@"%@",[[rdic objectForKey:@"data"] objectForKey:@"uploadToken"]];
-          dispatch_async(dispatch_get_main_queue(), ^{
-          [self uploadchunkMethod:uploadToken];
-          });
-        }else{
-          NSLog(@"rdic = %@",rdic);
-        }
-      }
-    }
-  }];
+       completionHandler:^(NSDictionary *result, NSError *error) {
+         if (error) {
+           NSLog(@"失败：error = %@ ",error);
+           dispatch_async(dispatch_get_main_queue(), ^{
+             [SVProgressHUD dismiss];
+             _log.text = [NSString stringWithFormat:@"%@",error];
+           });
+         }else{
+           NSString *uploadToken = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"] objectForKey:@"uploadToken"]];
+           dispatch_async(dispatch_get_main_queue(), ^{
+             [self uploadchunkMethod:uploadToken];//这边选择用什么样的上传方式。
+           });
+         }
+       }];
 }
 
 @end

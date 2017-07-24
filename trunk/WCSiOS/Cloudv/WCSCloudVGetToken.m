@@ -20,7 +20,7 @@
                       cmd:(NSString *)cmd
                 overwrite:(NSString *)overwrite
               videoSource:(NSString *)videoSource
-        completionHandler:(void (^)(NSData *  data, NSURLResponse *  response, NSError *  error))completionHandler
+        completionHandler:(void (^)(NSDictionary *result, NSError *error))completionHandler
 {
   NSString *timeStamp = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
   NSString *fileMd5 =[WCSCommonAlgorithm MD5StringFromString:fileURL.absoluteString];
@@ -30,7 +30,7 @@
   NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:fileURL.absoluteString error:&error];
   if(!error){
     fileSize = (UInt64)[attributes fileSize];
-  }  
+  }
   NSString *post =[NSString stringWithFormat:@"userId=%@&token=%@&timeStamp=%@&originFileName=%@&fileMd5=%@&originFileSize=%@&domian=%@&cmd=%@&overwrite=%@&videoSource=%@",userId,token,timeStamp,originFileName,fileMd5,@(fileSize),WCSPStrEmpty(domian),WCSPStrEmpty(cmd),WCSPStrEmpty(overwrite),WCSPStrEmpty(videoSource)];
   NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
   NSString *postLength = [NSString stringWithFormat:@"%d",(int)[postData length]];
@@ -42,8 +42,32 @@
   [request setHTTPBody:postData];
   NSURLSession *session = [NSURLSession sharedSession];
   NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                          completionHandler:completionHandler
-                               ];
+                                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                            NSDictionary* rdic = nil;
+                                            NSError *gterro = nil;
+                                            if (error) {
+                                              NSLog(@"失败：error = %@ ",error);
+                                              gterro = error;
+                                            }else{
+                                              NSError * jerror = nil;
+                                              rdic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jerror];
+                                              if (!jerror) {
+                                                NSLog(@"cloudv getToken resp:%@",rdic);
+                                                if([[rdic objectForKey:@"code"]intValue] == 200){
+                                                  NSString *uploadToken = nil;
+                                                  uploadToken = [NSString stringWithFormat:@"%@",[[rdic objectForKey:@"data"] objectForKey:@"uploadToken"]];
+                                                }else{
+                                                  gterro = [NSError errorWithDomain:@"com.chinanetcenter.serverError" code:[[rdic objectForKey:@"code"]intValue]  userInfo:rdic];
+                                                  NSLog(@"失败 ： rdic = %@",rdic);
+                                                }
+                                              }else{
+                                                gterro =jerror;
+                                              }
+                                            }
+                                            completionHandler(rdic,gterro);
+                                          }
+                                ];
   [task resume];
 }
 @end
+
