@@ -58,7 +58,7 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   _pickerData = @[@"file100k",@"file200k",@"file500k",@"file1m",@"file4m",@"file10m",@"file50m",@"file100m",@"file500m",@"file1G"];
   _tokenTextField.text = kNokeyToken;
   self.fileSizeArray = @[@102400, @204800, @512000, @1048576, @4194304,@10485760, @52428800, @104857600 ,@524288000,@1073741824];
-  self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://apitestuser.up0.v1.wcsapi.com"] andTimeout:30];
+  self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://tangdou1-up.8686c.com"] andTimeout:30];
   //  生成选择文件列表
   _picker.showsSelectionIndicator = YES;
   [_picker removeFromSuperview];
@@ -73,7 +73,11 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   toolBar.userInteractionEnabled = YES;
   _fileField.inputView = _picker;
   _fileField.inputAccessoryView = toolBar;
+  
+  
+  
 }
+
 
 -(void)changeDateFromLabel:(id)sender
 {
@@ -268,9 +272,13 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
 - (IBAction)chunkUpload:(id)sender {
   [_logStr setString:@""];
   [SVProgressHUD show];
+  [self getCloudVToken];
+}
+
+-(void)uploadchunkMethod:(NSString *)token{
   WCSBlockUploadRequest *blockRequest = [[WCSBlockUploadRequest alloc] init];
   blockRequest.fileKey = _keyTextField.text;
-  blockRequest.uploadToken = _tokenTextField.text;
+  blockRequest.uploadToken = token;
   if (_mimeTypeTextField.text.length >0) {
     blockRequest.mimeType = _mimeTypeTextField.text;
   }
@@ -284,7 +292,7 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   _req = blockRequest;
   [blockRequest setUploadProgress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
     NSString *str =[NSString stringWithFormat:@"=== %@ %@\n", @(totalBytesSent), @(totalBytesExpectedToSend)];
-//    NSLog(@"%@",str);
+    //    NSLog(@"%@",str);
     [_logStr appendString:str];
     dispatch_async(dispatch_get_main_queue(), ^{
       [SVProgressHUD showProgress:(float)totalBytesSent/totalBytesExpectedToSend];
@@ -316,8 +324,8 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
     }
     return nil;
   }];
+  
 }
-
 /**
  分块上传
  未解析返回json
@@ -396,5 +404,43 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   }
 }
 
+#pragma mark - testGetCloudVToken
+-(void)getCloudVToken
+{
+  WCSCloudVGetToken *wT = [[WCSCloudVGetToken alloc]init];
+  NSString *secretkey = @"80955aaf19949814ccc3a868d2def773";
+  NSString *uid = @"1100186";
+  NSString *timestamp = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+  NSString *token= [WCSCommonAlgorithm MD5StringFromString:[NSString stringWithFormat:@"%@%@%@",secretkey,uid,timestamp]];
+  
+  [wT getTokenWithUserId:@"1100186"
+                   Token:token
+          OriginFileName:_fileNameTextField.text
+                 fileURL:_fileURL
+                  domian:nil
+                     cmd:nil
+               overwrite:nil
+             videoSource:nil
+       completionHandler:^(NSData *  data, NSURLResponse *  response, NSError *  error) {
+    if (error) {
+      NSLog(@"error = %@ ",error);
+    }else{
+      NSError * jerror = nil;
+      NSDictionary* rdic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jerror];
+      if (!jerror) {
+        NSLog(@"cloudv getToken resp:%@",rdic);
+        if([[rdic objectForKey:@"code"]intValue] == 200){
+          NSString *uploadToken = nil;
+          uploadToken = [NSString stringWithFormat:@"%@",[[rdic objectForKey:@"data"] objectForKey:@"uploadToken"]];
+          dispatch_async(dispatch_get_main_queue(), ^{
+          [self uploadchunkMethod:uploadToken];
+          });
+        }else{
+          NSLog(@"rdic = %@",rdic);
+        }
+      }
+    }
+  }];
+}
 
 @end

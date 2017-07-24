@@ -15,7 +15,7 @@
 #import "WCSBlockUploadRequest.h"
 #import "WCSBlockUploadResult.h"
 #import "WCSApi.h"
-
+#import "WCSCloudVGetToken.h"
 FOUNDATION_EXPORT NSString * _Nonnull const WCSiOSSDKVersion;
 
 @interface WCSClient : NSObject

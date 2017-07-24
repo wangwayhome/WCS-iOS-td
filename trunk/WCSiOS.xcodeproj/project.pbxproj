@@ -104,6 +104,9 @@
 		4794BD8A1E6D565500B04571 /* WCSApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4794BCDC1E6D52C900B04571 /* WCSApi.m */; };
 		4794BD8B1E6D565500B04571 /* WCSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4794BCDE1E6D52C900B04571 /* WCSClient.m */; };
 		E148EE261EC1EAB100D6F59B /* WCSUploadObjectResultTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E148EE251EC1EAB100D6F59B /* WCSUploadObjectResultTest.m */; };
+		E1EB9BB21F25BD9700A4FE0C /* WCSCloudVGetToken.h in Headers */ = {isa = PBXBuildFile; fileRef = E1EB9BB01F25BD9700A4FE0C /* WCSCloudVGetToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1EB9BB31F25BD9700A4FE0C /* WCSCloudVGetToken.m in Sources */ = {isa = PBXBuildFile; fileRef = E1EB9BB11F25BD9700A4FE0C /* WCSCloudVGetToken.m */; };
+		E1EB9BB41F25BE0B00A4FE0C /* WCSCloudVGetToken.m in Headers */ = {isa = PBXBuildFile; fileRef = E1EB9BB11F25BD9700A4FE0C /* WCSCloudVGetToken.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +225,8 @@
 		47DFE4FE1CBE3AA400F605DC /* WCSBatchUploadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCSBatchUploadTests.m; sourceTree = "<group>"; };
 		E148EE251EC1EAB100D6F59B /* WCSUploadObjectResultTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCSUploadObjectResultTest.m; sourceTree = "<group>"; };
 		E1BA8C1B1EB9BBA3004E1FB7 /* libPods-TestWCSiOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TestWCSiOS.a"; path = "../../../../Library/Developer/Xcode/DerivedData/TestWCSiOS-fhozcsracxqsskctpvdherwzyldv/Build/Products/Debug-iphoneos/libPods-TestWCSiOS.a"; sourceTree = "<group>"; };
+		E1EB9BB01F25BD9700A4FE0C /* WCSCloudVGetToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCSCloudVGetToken.h; sourceTree = "<group>"; };
+		E1EB9BB11F25BD9700A4FE0C /* WCSCloudVGetToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCSCloudVGetToken.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -430,6 +435,7 @@
 		4794BD351E6D531000B04571 /* WCSiOS */ = {
 			isa = PBXGroup;
 			children = (
+				E1EB9BAF1F25BD9700A4FE0C /* Cloudv */,
 				4794BC851E6D52C900B04571 /* Categories */,
 				4794BC901E6D52C900B04571 /* Models */,
 				4794BCB91E6D52C900B04571 /* Networking */,
@@ -485,6 +491,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E1EB9BAF1F25BD9700A4FE0C /* Cloudv */ = {
+			isa = PBXGroup;
+			children = (
+				E1EB9BB01F25BD9700A4FE0C /* WCSCloudVGetToken.h */,
+				E1EB9BB11F25BD9700A4FE0C /* WCSCloudVGetToken.m */,
+			);
+			path = Cloudv;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -493,6 +508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4794BD381E6D531000B04571 /* WCSiOS.h in Headers */,
+				E1EB9BB21F25BD9700A4FE0C /* WCSCloudVGetToken.h in Headers */,
 				4794BD3C1E6D537100B04571 /* WCSBlock.h in Headers */,
 				4794BD3D1E6D537100B04571 /* WCSBlockUploadBase64Result.h in Headers */,
 				4794BD3E1E6D537100B04571 /* WCSBlockUploadRequest.h in Headers */,
@@ -520,6 +536,7 @@
 				4794BD541E6D537100B04571 /* WCSClient.h in Headers */,
 				4716EC551EB2ED810052CE75 /* WCSCancellationToken.h in Headers */,
 				4794BD611E6D538200B04571 /* WCSCommonAlgorithm.h in Headers */,
+				E1EB9BB41F25BE0B00A4FE0C /* WCSCloudVGetToken.m in Headers */,
 				4716EC651EB31DE80052CE75 /* WCSBoltsVersion.h in Headers */,
 				4794BD551E6D538200B04571 /* NSData+WCSCommonAlgorithm.h in Headers */,
 				4794BD571E6D538200B04571 /* NSString+WCSStringExtensions.h in Headers */,
@@ -659,6 +676,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4794BD651E6D565500B04571 /* NSData+WCSCommonAlgorithm.m in Sources */,
+				E1EB9BB31F25BD9700A4FE0C /* WCSCloudVGetToken.m in Sources */,
 				4794BD661E6D565500B04571 /* NSDictionary+WCSDictionarySafeExtensions.m in Sources */,
 				4794BD671E6D565500B04571 /* NSString+WCSStringExtensions.m in Sources */,
 				4794BD681E6D565500B04571 /* NSURL+WCSParameters.m in Sources */,
