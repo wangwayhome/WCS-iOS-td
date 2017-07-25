@@ -54,8 +54,7 @@
                                               if (!jerror) {
                                                 NSLog(@"cloudv getToken resp:%@",rdic);
                                                 if([[rdic objectForKey:@"code"]intValue] == 200){
-                                                  NSString *uploadToken = nil;
-                                                  uploadToken = [NSString stringWithFormat:@"%@",[[rdic objectForKey:@"data"] objectForKey:@"uploadToken"]];
+                                                  NSLog(@"成功获取数据");
                                                 }else{
                                                   gterro = [NSError errorWithDomain:@"com.chinanetcenter.serverError" code:[[rdic objectForKey:@"code"]intValue]  userInfo:rdic];
                                                   NSLog(@"失败 ： rdic = %@",rdic);

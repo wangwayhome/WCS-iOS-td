@@ -56,22 +56,46 @@ SDK的framework包含Category，所以需要添加-ObjC选项，否则在使用�
 在工程中引入SDK的wcs-java-sdk-x.x.x.jar包，和wcs-java-sdk-x.x.x-dependencies.zip文件中解压出来的第三方jar包（以eclipse为例） 
 ![服务端开发环境准备](https://wcs.chinanetcenter.com/indexNew/image/wcs/wcs-ios-sdk3.png)
 
-#### 配置信息
 
-用户接入网宿云存储时，需要使用一对有效的AK和SK进行签名认证，并填写“上传域名”进行文件上传。配置信息只需要在整个应用程序中初始化一次即可，具体操作如下：
 
-- 开通网宿云存储平台账户
-- 登录网宿云存储平台，在“安全管理”下的“密钥管理”查看AK和SKK，“域名查询”查看上传、管理域名。
 
-在获取到AK和SK等信息之后，您可以按照如下方式进行密钥初始化：
+
+#### 初始化WCSClient 
 
 ```objective-c
-import com.chinanetcenter.api.util.Config;
-//1.初始化信息
-String ak = "your access key";
-String sk = "your secrete key";
-String PUT_URL = "your uploadDomain";
-Config.init(ak,sk,PUT_URL,"");
+  //初始化wcsclient对象。
+  self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://tangdou1-up.8686c.com"] andTimeout:30];
+```
+#### 获取上传token信息
+```objective-c
+ //  范例 
+
+ //初始化获取云存储uploadtoken对象
+  WCSCloudVGetToken *wT = [[WCSCloudVGetToken alloc]init];
+  
+  //sdk 获取云存储uploadtoken方法
+  [wT getTokenWithUserId:// userId 用户id （必填）
+                   Token://校验凭证 （必填）
+          OriginFileName://上传文件名 （必填）
+                 fileURL:// 上传文件路径 （必填）
+                  domian://domian 视频域名
+                     cmd://一体化命令
+               overwrite://上传策略
+             videoSource://视频来源
+       completionHandler:^(NSDictionary *result, NSError *error) {
+         if (error) {
+           NSLog(@"失败信息：error = %@ ",error);
+           dispatch_async(dispatch_get_main_queue(), ^{
+             [SVProgressHUD dismiss];
+             _log.text = [NSString stringWithFormat:@"%@",error];//打印失败信息到DEMO界面上
+           });
+         }else{
+           NSString *uploadToken = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"] objectForKey:@"uploadToken"]];
+           dispatch_async(dispatch_get_main_queue(), ^{
+             [self uploadchunkMethod:uploadToken];//获取到token后，这边选择用什么样的上传方式。
+           });
+         }
+       }];
 ```
 
 #### 文件上传

@@ -58,6 +58,7 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   _pickerData = @[@"file100k",@"file200k",@"file500k",@"file1m",@"file4m",@"file10m",@"file50m",@"file100m",@"file500m",@"file1G"];
   _tokenTextField.text = kNokeyToken;
   self.fileSizeArray = @[@102400, @204800, @512000, @1048576, @4194304,@10485760, @52428800, @104857600 ,@524288000,@1073741824];
+  //初始化wcsclient对象。
   self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://tangdou1-up.8686c.com"] andTimeout:30];
   //  生成选择文件列表
   _picker.showsSelectionIndicator = YES;
@@ -404,15 +405,19 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   }
 }
 
-#pragma mark - testGetCloudVToken
+#pragma mark - 获取uploadtoken 方法
 -(void)getCloudVToken
 {
+  //初始化获取云存储uploadtoken对象
   WCSCloudVGetToken *wT = [[WCSCloudVGetToken alloc]init];
-  NSString *secretkey = @"";
-  NSString *uid = @"";
+  
+  //此部分为生成token服务器端代码，暂时先放在客户端DEMO 用于测试。
+  NSString *secretkey = @"80955aaf19949814ccc3a868d2def773";
+  NSString *uid = @"1100186";
   NSString *timestamp = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
   NSString *token= [WCSCommonAlgorithm MD5StringFromString:[NSString stringWithFormat:@"%@%@%@",secretkey,uid,timestamp]];
   
+  //sdk 获取云存储uploadtoken方法
   [wT getTokenWithUserId:@"1100186"
                    Token:token
           OriginFileName:_fileNameTextField.text
@@ -423,15 +428,15 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
              videoSource:nil
        completionHandler:^(NSDictionary *result, NSError *error) {
          if (error) {
-           NSLog(@"失败：error = %@ ",error);
+           NSLog(@"失败信息：error = %@ ",error);
            dispatch_async(dispatch_get_main_queue(), ^{
              [SVProgressHUD dismiss];
-             _log.text = [NSString stringWithFormat:@"%@",error];
+             _log.text = [NSString stringWithFormat:@"%@",error];//打印失败信息到DEMO界面上
            });
          }else{
            NSString *uploadToken = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"] objectForKey:@"uploadToken"]];
            dispatch_async(dispatch_get_main_queue(), ^{
-             [self uploadchunkMethod:uploadToken];//这边选择用什么样的上传方式。
+             [self uploadchunkMethod:uploadToken];//获取到token后，这边选择用什么样的上传方式。
            });
          }
        }];
