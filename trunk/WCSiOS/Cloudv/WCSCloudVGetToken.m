@@ -14,6 +14,7 @@
 //获取视频上传令牌
 -(void)getTokenWithUserId:(NSString *)userId
                     Token:(NSString *)token
+                TimeStamp:(NSString *)timeStamp
            OriginFileName:(NSString *)originFileName
                   fileURL:(NSURL *)fileURL
                    domian:(NSString *)domian
@@ -22,7 +23,6 @@
               videoSource:(NSString *)videoSource
         completionHandler:(void (^)(NSDictionary *result, NSError *error))completionHandler
 {
-  NSString *timeStamp = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
   NSString *fileMd5 =[WCSCommonAlgorithm MD5StringFromString:fileURL.absoluteString];
   
   UInt64 fileSize = 0;

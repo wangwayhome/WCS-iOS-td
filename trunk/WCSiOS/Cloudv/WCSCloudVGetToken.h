@@ -16,6 +16,7 @@
  
  @param userId 用户id （必填）
  @param token 校验凭证 （必填）
+ @param timeStamp 与生成token的timeStamp一致(必填)
  @param originFileName 上传文件名 （必填）
  @param fileURL 上传文件路径 （必填）
  @param domian 视频域名
@@ -26,6 +27,7 @@
  */
 -(void)getTokenWithUserId:(NSString *)userId
                     Token:(NSString *)token
+                TimeStamp:(NSString *)timeStamp
            OriginFileName:(NSString *)originFileName
                   fileURL:(NSURL *)fileURL
                    domian:(NSString *)domian

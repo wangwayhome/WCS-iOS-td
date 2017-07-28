@@ -129,7 +129,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrA-HD-Hsx">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrA-HD-Hsx">
                                 <rect key="frame" x="0.0" y="18" width="187.5" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -140,7 +140,7 @@
                                     <action selector="initialFiles:" destination="epY-Dl-wgF" eventType="touchUpInside" id="xMb-Op-U0S"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="token 上传凭证（必填）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8H-5o-aOJ">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="token 上传凭证（必填）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8H-5o-aOJ">
                                 <rect key="frame" x="0.0" y="80" width="375" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="FVa-Mf-pmq"/>
@@ -201,7 +201,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTa-HJ-iWW">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTa-HJ-iWW">
                                 <rect key="frame" x="0.0" y="268" width="75" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -304,7 +304,7 @@
                             <constraint firstAttribute="trailing" secondItem="ZEC-6g-QbB" secondAttribute="trailing" id="JXh-tJ-CrZ"/>
                             <constraint firstAttribute="trailing" secondItem="nxV-pI-hlJ" secondAttribute="trailing" id="KnO-MK-k5h"/>
                             <constraint firstItem="0cc-oo-ozH" firstAttribute="leading" secondItem="QoX-hD-Arl" secondAttribute="trailing" id="R8J-JW-nE2"/>
-                            <constraint firstItem="HTa-HJ-iWW" firstAttribute="top" secondItem="Aj4-hy-LoP" secondAttribute="bottom" constant="8" id="RHL-DM-lbm"/>
+                            <constraint firstAttribute="top" secondItem="Aj4-hy-LoP" secondAttribute="bottom" constant="-260" id="RHL-DM-lbm"/>
                             <constraint firstItem="ZsK-Cx-yXA" firstAttribute="top" secondItem="gd8-0f-KDZ" secondAttribute="bottom" id="RI0-MU-z5d"/>
                             <constraint firstItem="QoX-hD-Arl" firstAttribute="leading" secondItem="NUB-FN-jVo" secondAttribute="trailing" id="SXM-Hk-hJa"/>
                             <constraint firstItem="0cc-oo-ozH" firstAttribute="width" secondItem="NUB-FN-jVo" secondAttribute="width" id="WDr-su-nOb"/>

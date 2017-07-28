@@ -56,7 +56,7 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   // Do any additional setup after loading the view from its nib.
   _logStr = [[NSMutableString alloc]init];
   _pickerData = @[@"file100k",@"file200k",@"file500k",@"file1m",@"file4m",@"file10m",@"file50m",@"file100m",@"file500m",@"file1G"];
-  _tokenTextField.text = kNokeyToken;
+//  _tokenTextField.text = kNokeyToken;
   self.fileSizeArray = @[@102400, @204800, @512000, @1048576, @4194304,@10485760, @52428800, @104857600 ,@524288000,@1073741824];
   //初始化wcsclient对象。
   self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://tangdou1-up.8686c.com"] andTimeout:30];
@@ -74,8 +74,6 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   toolBar.userInteractionEnabled = YES;
   _fileField.inputView = _picker;
   _fileField.inputAccessoryView = toolBar;
-  
-  
   
 }
 
@@ -420,8 +418,9 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   //sdk 获取云存储uploadtoken方法
   [wT getTokenWithUserId:@"1100186"
                    Token:token
+               TimeStamp:timestamp//与生成token的timeStamp必须一致
           OriginFileName:_fileNameTextField.text
-                 fileURL:_fileURL
+                 fileURL:_fileURL  //iTunes 直接拖文件到 此demo的 documents 。点击界面上选择文件框选择
                   domian:nil
                      cmd:nil
                overwrite:nil
