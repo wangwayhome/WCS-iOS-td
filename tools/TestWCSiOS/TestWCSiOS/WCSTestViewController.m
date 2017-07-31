@@ -59,7 +59,7 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
 //  _tokenTextField.text = kNokeyToken;
   self.fileSizeArray = @[@102400, @204800, @512000, @1048576, @4194304,@10485760, @52428800, @104857600 ,@524288000,@1073741824];
   //初始化wcsclient对象。
-  self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://tangdou1-up.8686c.com"] andTimeout:30];
+  self.client = [[WCSClient alloc] initWithBaseURL:[NSURL URLWithString:@""] andTimeout:30];
   //  生成选择文件列表
   _picker.showsSelectionIndicator = YES;
   [_picker removeFromSuperview];
@@ -410,13 +410,13 @@ static NSString * const kNokeyToken = @"db17ab5d18c137f786b67c490187317a0738f94a
   WCSCloudVGetToken *wT = [[WCSCloudVGetToken alloc]init];
   
   //此部分为生成token服务器端代码，暂时先放在客户端DEMO 用于测试。
-  NSString *secretkey = @"80955aaf19949814ccc3a868d2def773";
-  NSString *uid = @"1100186";
+  NSString *secretkey = @"";
+  NSString *uid = @"";
   NSString *timestamp = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
   NSString *token= [WCSCommonAlgorithm MD5StringFromString:[NSString stringWithFormat:@"%@%@%@",secretkey,uid,timestamp]];
   
   //sdk 获取云存储uploadtoken方法
-  [wT getTokenWithUserId:@"1100186"
+  [wT getTokenWithUserId:@""
                    Token:token
                TimeStamp:timestamp//与生成token的timeStamp必须一致
           OriginFileName:_fileNameTextField.text
